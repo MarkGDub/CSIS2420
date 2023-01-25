@@ -1,6 +1,5 @@
 package a01;
 
-import java.text.DecimalFormat;
 import java.util.Arrays;
 
 /**
@@ -12,15 +11,7 @@ import java.util.Arrays;
 public class A01Part1 {
 	
 	/**
-	 * Returns a new array that includes every other number starting with the 
-	first.
-	 * E.g., [10, 20, 30, 40, 50, 60] returns [10, 30, 50]
-	 * E.g., [10] returns [10]
-	 * <p>
-	 * Boundary cases:
-	 * If the array is empty, an empty array should be returned. 
-	 * If the user passes null as an argument, the method should return null.
-	 * 
+	 * Returns a new array that includes every other number starting with the first.
 	 * @param numbers original array of whole numbers
 	 * @return array that includes every other number starting with the first
 	 */
@@ -50,39 +41,30 @@ public class A01Part1 {
 	
 	/**
 	 * Returns a new array that includes commas as thousands separators.
-	 * E.g., ['7', '6', '5', '4', '3', '2', '1'] returns ['7', ',', 6, 5, 4, ',',
-	3, 2, 1] 
-	 * E.g., ['5', '3', '6'] returns ['5', '3', '6']
-	 * <p>
-	 * Boundary cases:
-	 * If the array is empty, an empty array should be returned. 
-	 * If the user passes null as an argument, the method should return null.
-	 * 
 	 * @param digits original array of digits
 	 * @return new array that includes commas as thousands separators.
 	 * @throws IllegalArgumentException if the array <code>digits</code> includes
 	 * any characters that are not digits.
 	 */
 	public static char[] addSeparators (char[] digits) {
-			if(digits == null) {
-				return null;
-			}
+		if(digits == null) {
+			return null;
+		}
+		
+		
+		if (digits.length < 4) {
 			
+			boolean arrayContainsNonDigit = Character.isDigit(digits[0]) != true || Character.isDigit(digits[1]) != true || Character.isDigit(digits[2]) != true;
 			
-			if (digits.length < 4) {
-				
-				boolean arrayContainsNonDigit = Character.isDigit(digits[0]) != true || Character.isDigit(digits[1]) != true || Character.isDigit(digits[2]) != true;
-				
-				if(arrayContainsNonDigit) {
-					throw new IllegalArgumentException("Array input contains non-digit");
-			}
+			if(arrayContainsNonDigit) {
+				throw new IllegalArgumentException("Array input contains non-digit");
+		}
 			
 			return digits;
 		}
 
 		
 		int amountOfSeparators;
-		
 		if(digits.length % 3 == 0) {
 			amountOfSeparators = digits.length / 3 - 1;
 		} else {
@@ -119,14 +101,7 @@ public class A01Part1 {
 	
 	
 	/**
-	 * Determines whether the order of the elements in the array from front to 
-	back
-	 * is the same as the order of the elements from back to front.
-	 * E.g., ['r', 'a', 'c', 'e', 'c', 'a', 'r'] returns true
-	 * E.g., ['D', 'a', 'd'] returns false (case matters)
-	 * E.g., [10, 20] returns false
-	 * E.g., ["hello"] returns true (a single element is a palindrome)
-	 * 
+	 * Determines whether the order of the elements in the array from front to back
 	 * @param array
 	 * @return true if the array is a palindrome and false otherwise
 	 * @throws IllegalArgumentException if the array includes no elements or
@@ -160,16 +135,16 @@ public class A01Part1 {
 	
 	public static void main(String[] args) {
 		int[] numbers = {1,2,3,4,5,6,7,8,9};
-		char[] chars = {'1', '2', '3', '4', '5', '6', 't', '8', '9', '0'}; // 1,234,567,890
-		Character[] test = {'r', 'a', 'c', 'e', 'c', 'a', 'r'};
-		Number[] test2 = {10, 10, 10, 1};
+		char[] chars = {'1', '2', '3', '4', '5', '6', '7', '8', '9', '0'};
+		Character[] palindrome = {'r', 'a', 'c', 'e', 'c', 'a', 'r'};
+		Number[] nonPalindrome = {10, 10, 10, 1};
 		
 		int [] everyOtherNumber = everyOther(numbers);
 		char[] charWithSeparators = addSeparators(chars);
 		
 //		System.out.println(Arrays.toString(everyOtherNumber));
-		System.out.println(Arrays.toString(charWithSeparators));
-//		System.out.println(Arrays.toString(test) + " is palindrome? " + isPalindrome(test));
-//		System.out.print(Arrays.toString(test2) + " is palindrome? " + isPalindrome(test2));
+//		System.out.println(Arrays.toString(charWithSeparators));
+//		System.out.println(Arrays.toString(palindrome) + " is palindrome? " + isPalindrome(palindrome));
+//		System.out.print(Arrays.toString(nonPalindrome) + " is palindrome? " + isPalindrome(nonPalindrome));
 	}
 } 
