@@ -32,10 +32,12 @@ public class A01Part1 {
 		if(numbers.length == 1) {
 			return numbers;
 		}
+		
 		int[] everyOtherNumber = new int[(int)Math.ceil((numbers.length + .00) / 2)];
 		
 		
 		int index = 0;
+		
 		for(int i = 0; i < numbers.length ; i++) {
 		  if(i % 2 == 0) {
 			  everyOtherNumber[index] = numbers[i];
@@ -62,80 +64,59 @@ public class A01Part1 {
 	 * any characters that are not digits.
 	 */
 	public static char[] addSeparators (char[] digits) {
-		if(digits == null) {
-			return null;
-		}
-		
-		
-		if (digits.length < 4) {
-			for(int i = 0; i < digits.length; i++) {
-				if(Character.isDigit(digits[i]) == false) {
-					throw new IllegalArgumentException("Input contain non-digits at index:" + i);
-				}
+			if(digits == null) {
+				return null;
+			}
+			
+			
+			if (digits.length < 4) {
+				
+				boolean arrayContainsNonDigit = Character.isDigit(digits[0]) != true || Character.isDigit(digits[1]) != true || Character.isDigit(digits[2]) != true;
+				
+				if(arrayContainsNonDigit) {
+					throw new IllegalArgumentException("Array input contains non-digit");
 			}
 			
 			return digits;
 		}
-		
-		
-		
-		DecimalFormat df = new DecimalFormat("#.00");
-		double beginningThousandsthPlace = (digits.length +.00) / 3;
-		String angleFormated = df.format(beginningThousandsthPlace);
-		
-		int start = 1;
 
-		int amountOfCommaSeparated = ((digits.length) / 3) -1;
-		int size = digits.length + amountOfCommaSeparated;
-		if(digits.length == 4) {
-			size++;
-		}
 		
-		if(angleFormated.contains(".00")) {
-			start = 2;
-		} else if(angleFormated.contains(".33")) {
-			start = 0;
+		int amountOfSeparators;
+		
+		if(digits.length % 3 == 0) {
+			amountOfSeparators = digits.length / 3 - 1;
 		} else {
-			start = 1;
+			amountOfSeparators = digits.length / 3; 
 		}
 		
+		char[] commaSeparatedDigits = new char[digits.length + amountOfSeparators];
 		
-		char[] commaSeparated = new char[size];
-		
-		int index = 0;
-		int thousandsthPlace = 1;
-		
-		for(int i = 0; i < digits.length ; i++) {
-			if(Character.isDigit(digits[i]) == false) {
-				throw new IllegalArgumentException("Input contain non-digit at index:" + i);
+		int count = 0;
+		int index = commaSeparatedDigits.length - 1;
+		for(int i = digits.length - 1; i >= 0; i--) {
+			if(Character.isDigit(digits[i])  != true) {
+				throw new IllegalArgumentException("Array input contains non-digit at index: " + i + ", value: " + digits[i]);
 			}
 			
-			if(i == start || thousandsthPlace == 3) {
+			if(count != 3) {
+				commaSeparatedDigits[index] = digits[i];
 				
-				
-				commaSeparated[index] = digits[i];
-				
-				
-				index++;
-				if(index < commaSeparated.length) {
-					commaSeparated[index] = ',';
-					index++;	
-				}
-				thousandsthPlace = 1;
+				count++;
+				index--;
 			} else {
+				commaSeparatedDigits[index] = ',';
+				index--;
 				
+				commaSeparatedDigits[index] = digits[i];
+				index--;
 				
-				commaSeparated[index] = digits[i];
-				index++;
-				if(i > start) {					
-					thousandsthPlace++;
-				}
+				count = 1;
 			}
-			
 		}
 		
-		return commaSeparated;
+		return commaSeparatedDigits;
 	}
+	
 	
 	/**
 	 * Determines whether the order of the elements in the array from front to 
@@ -179,16 +160,16 @@ public class A01Part1 {
 	
 	public static void main(String[] args) {
 		int[] numbers = {1,2,3,4,5,6,7,8,9};
-		char[] chars = {'1', '2', '3', '4'}; // 1,234,567,890
+		char[] chars = {'1', '2', '3', '4', '5', '6', 't', '8', '9', '0'}; // 1,234,567,890
 		Character[] test = {'r', 'a', 'c', 'e', 'c', 'a', 'r'};
 		Number[] test2 = {10, 10, 10, 1};
 		
 		int [] everyOtherNumber = everyOther(numbers);
 		char[] charWithSeparators = addSeparators(chars);
 		
-		System.out.println(Arrays.toString(everyOtherNumber));
+//		System.out.println(Arrays.toString(everyOtherNumber));
 		System.out.println(Arrays.toString(charWithSeparators));
-		System.out.println(Arrays.toString(test) + " is palindrome? " + isPalindrome(test));
-		System.out.print(Arrays.toString(test2) + " is palindrome? " + isPalindrome(test2));
+//		System.out.println(Arrays.toString(test) + " is palindrome? " + isPalindrome(test));
+//		System.out.print(Arrays.toString(test2) + " is palindrome? " + isPalindrome(test2));
 	}
 } 
