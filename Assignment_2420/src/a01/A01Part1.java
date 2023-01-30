@@ -1,6 +1,6 @@
 package a01;
 
-import java.util.Arrays;
+//import java.util.Arrays;
 
 /**
  * Coding challenges for assignment A01 part1.
@@ -54,11 +54,9 @@ public class A01Part1 {
 		
 		if (digits.length < 4) {
 			
-			boolean arrayContainsNonDigit = Character.isDigit(digits[0]) != true || Character.isDigit(digits[1]) != true || Character.isDigit(digits[2]) != true;
-			
-			if(arrayContainsNonDigit) {
-				throw new IllegalArgumentException("Array input contains non-digit");
-		}
+			for(int i = 0; i < digits.length; i++) {
+				if(Character.isDigit(digits[i]) != true) throw new IllegalArgumentException("Array contains non-digit at index: " + i);
+			}
 			
 			return digits;
 		}
@@ -134,17 +132,17 @@ public class A01Part1 {
 	}
 	
 	public static void main(String[] args) {
-		int[] numbers = {1,2,3,4,5,6,7,8,9};
-		char[] chars = {'1', '2', '3', '4', '5', '6', '7', '8', '9', '0'};
-		Character[] palindrome = {'r', 'a', 'c', 'e', 'c', 'a', 'r'};
-		Number[] nonPalindrome = {10, 10, 10, 1};
+//		int[] numbers = {1,2,3,4,5,6,7,8,9};
+//		char[] chars = {'1', '2', '3', '4', '5', '6', '7', '8', '9', '0'};
+//		Character[] palindrome = {'r', 'a', 'c', 'e', 'c', 'a', 'r'};
+//		Number[] nonPalindrome = {10, 10, 10, 1};
+//		
+//		int [] everyOtherNumber = everyOther(numbers);
+//		char[] charWithSeparators = addSeparators(chars);
 		
-		int [] everyOtherNumber = everyOther(numbers);
-		char[] charWithSeparators = addSeparators(chars);
-		
-		System.out.println(Arrays.toString(everyOtherNumber));
-		System.out.println(Arrays.toString(charWithSeparators));
-		System.out.println(Arrays.toString(palindrome) + " is palindrome? " + isPalindrome(palindrome));
-		System.out.print(Arrays.toString(nonPalindrome) + " is palindrome? " + isPalindrome(nonPalindrome));
+//		System.out.println(Arrays.toString(everyOtherNumber));
+//		System.out.println(Arrays.toString(charWithSeparators));
+//		System.out.println(Arrays.toString(palindrome) + " is palindrome? " + isPalindrome(palindrome));
+//		System.out.print(Arrays.toString(nonPalindrome) + " is palindrome? " + isPalindrome(nonPalindrome));
 	}
 } 

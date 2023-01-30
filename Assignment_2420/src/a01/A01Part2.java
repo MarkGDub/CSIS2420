@@ -12,25 +12,6 @@ import java.util.stream.IntStream;
 public class A01Part2 {
 		
 	/**
-	 * Finds the shortest sequence of consecutive array elements that add up to 
-	 * the specified sum and returns the length of that sequence. 
-	 * If no such sequence is found, the method returns 0.    
-	 * <p>
-	 * E.g., [2, 10, 4, 8, 1, 22, 5, 16, 2] and sum = 23 returns 2
-	 * This example has three sequences that add up to 23: 10_4_8_1, 1_22, and 5_16_2.
-	 * Since 1_22 is the shortest sequence, the method returns 2.
-	 * E.g., [1, 7, 4, 0] and sum = 5 returns 0 because no sequence 
-	 * of consecutive array elements adds up to 5.
-	 * <p>
-	 * All array elements need to be positive or zero. If the array includes a 
-	negative number,
-	 * an IllegalArgumentException should be thrown.
-	 * <p>
-	 * Special cases:
-	 * If the array is empty or if the user passes null as the first argument, 
-	the 
-	 * method should return 0.       
-	 * 
 	 * @param array
 	 * @param sum 
 	 * @return the minimum number of consecutive addends to calculate the 
@@ -43,11 +24,10 @@ public class A01Part2 {
 		
 		int iterator = 1;
 		int index = 0;
-		while(iterator < array.length) {
+		while(iterator <= array.length) {
 			
 			if(iterator == 1 && array[index] < 0) 
 				throw new IllegalArgumentException("Negative int at index:" + index);
-			
 			
 			if(iterator == 1) {
 				if(array[index] == sum) return iterator;
@@ -56,11 +36,9 @@ public class A01Part2 {
 				
 				int[] sequence = Arrays.copyOfRange(array, index, index + iterator);
 				
-				System.out.println("Sequence Arr = " + Arrays.toString(sequence));
 				
 				int sequenceSum = IntStream.of(sequence).sum();
 				
-				System.out.println("Sequence Sum = " + sequenceSum);
 				
 				if(sequenceSum == sum) return iterator;
 			}
@@ -79,77 +57,31 @@ public class A01Part2 {
 	}
 	
 	/**
-	 * Changes the two-dimensional array by multiplying each value with 2.
-	 * E.g., [3, 4, 1]                 [6, 8, 2]
-	 *       [4, 0, 2, -2] changes to  [8, 0, 4, -4]
-	 *       [1, 4]                    [2, 8]
-	 * <p>
-	 * Special cases:
-	 * If the two-dimensional array is empty, an IllegalArgumentException should 
-	be thrown. 
-	 * If the user passes null as an argument, a NullPointerException should be 
-	thrown. 
-	 *   
 	 * @param array2d
+	 * @return 
 	 * @throws IllegalArgumentException if the array is empty.
 	 * @throws NullPointerException if the argument is null.
 	 */
 	public static void doubleValues(int[][] array2d) {
 		if(array2d == null) {
-			throw new IllegalArgumentException("Null argument passed");
+			throw new NullPointerException("Null argument passed");
 		}
 		
 		if(array2d.length == 0) {
 			throw new IllegalArgumentException("Empty 2d array");
 		}
-
-		
-		int[][] doubled2dArray = new int[array2d.length][];
 		
 		for(int i = 0; i < array2d.length; i ++) {
 			
-			doubled2dArray[i] = new int[array2d[i].length];
-			
 			for(int j = 0; j < array2d[i].length; j++) {
 				
-				doubled2dArray[i][j] = 2 * array2d[i][j];
+				array2d[i][j] = 2 * array2d[i][j];
 			}
 		}
 		
-		for(int[] array: doubled2dArray) {
-			System.out.println(Arrays.toString(array));		
-		}
 	}
 	
 	/**
-	 * Determines whether the matrix includes a golden ticket. 
-	 * A golden ticket consists of 6 upper-case 'G' where three pairs of 'G's are
-	aligned 
-	 * above each other as shown below. 
-	 * Note that the example leaves out the single quotes for easier readability.
-	 * 
-	 * G G
-	 * G G
-	 * G G
-	 * <p>
-	 * E.g., [A b - - C d m]  
-	 *       [- G G Z G G -] 
-	 *       [H o - r G G D]   this matrix returns true
-	 *       [H o - r G G D]
-	 *       
-	 * E.g., [R g G - C d m W]  
-	 *       [- G G Z G G - r]   this matrix returns false
-	 *       [o G G G r G G D]   because the 'G's are not in the specified position
-	 *       [S t C - G G a -]   relative to each other. Lower-case 'g's don't count.
-	 * <p>
-	 * The matrix should be 'rectangular', which means, all rows should have 
-	 * the same number of elements. If that is not the case, an IllegalArgumentException 
-	 * should be thrown.
-	 * <p>
-	 * Boundary cases:
-	 * If the two-dimensional array is empty or the user passes null as an argument, the
-	 * method should return false. 
-	 * 
 	 * @param matrix
 	 * @throws IllegalArgumentException if the rows vary in length.
 	 */
@@ -158,20 +90,63 @@ public class A01Part2 {
 			return false;
 		}
 		
-		// adjacency matrix or union find
+		int expectedRectangleRowLength = matrix[0].length;
+		for(int i = 1; i < matrix.length; i++) {
+			if(matrix[i].length != expectedRectangleRowLength) 
+				throw new IllegalArgumentException("The matrix is not rectangular");
+		}
 		
-		return false;  // TODO
+		String goldenTicket = "GGGGGG";
+		for(int i = 0; i < matrix.length; i++) {
+			if(matrix.length - i < 3) {
+				return false;
+			}
+			
+			for(int j = 0; j < matrix[i].length; j++) {
+				if(matrix[i].length - j >= 2) {
+					String currentRow = "" + matrix[i][j] + matrix[i][j + 1];
+					
+					if(currentRow.equals("GG")) {
+						String oneRowBelow = "" + matrix[i + 1][j] + matrix[i + 1][j + 1];
+						String twoRowsBelow = "" + matrix[i + 2][j] + matrix[i + 2][j + 1];
+						String ticket = currentRow + oneRowBelow + twoRowsBelow;
+						
+						if(goldenTicket.equals(ticket)) {
+							return true;
+						}
+					}
+					
+				} else {
+					continue;
+				}
+					
+			}
+		}
+		
+		return false; 
 	}
 	
 	public static void main(String[] args) {
-		int[][] array2d = {{1,2,3,4},{4,5,6},{7,8,9,0},{1,2,3,4,5,6,7,8,9}};
+//		int[][] array2d = {{1,2,3,4},{4,5,6},{7,8,9,0},{1,2,3,4,5,6,7,8,9}};
 //		int[][] empty2dArray = {};
+//		char[][] ticket = {
+//				{'C','A','G','C','B','V','T'},
+//				{'C','G','A','C','B','V','T'},
+//				{'C','G','G','C','B','V','T'},
+//				{'C','A','G','C','B','V','T'},
+//				{'C','G','G','G','G','V','T'},
+//				{'C','G','G','G','G','V','T'},
+//				{'C','G','A','G','G','V','T'},
+//				{'C','A','D','C','B','V','T'}
+//				};
 		
-		int[] addends = {2, 10, 4, 8, 1, 22, 5, 16, 2};
+		int[] addends = {};
 		
-		doubleValues(array2d);
+//		doubleValues(array2d);
 		
-		System.out.println("Smallest sequence of addends needed = " + minNumberOfAddends(addends, 23));
+		
+		System.out.println("Smallest sequence of addends needed = " + minNumberOfAddends(addends, 5));
+//		System.out.print("Contains golden ticket = " + goldenTicket(ticket));
 	}
 } 
 
