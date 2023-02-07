@@ -3,13 +3,13 @@ package ceLinked;
 import java.util.Iterator;
 
 /**
- * WordList is a singly-linked list of Strings.
+ * GenericList is a singly-linked list of elements of type E.
  * It is designed as a practice opportunity to
  * learn how to manipulate linked structures.
  * 
  * @author CSIS2420 + Mark GW
  */
-public class WordList implements Iterable<String> {
+public class GenericList<E> implements Iterable<E> {
 	private Node head; // first node of the list or null
 	private Node tail; // last node of the list or null
 	private int n;     // number of words in the list
@@ -19,7 +19,7 @@ public class WordList implements Iterable<String> {
 	 * single reference to the next node.
 	 */
 	private class Node {
-		private String item;
+		private E item;
 		private Node next;
 	}
 	
@@ -29,7 +29,7 @@ public class WordList implements Iterable<String> {
 	 * 
 	 * @param newItem
 	 */
-	public void append(String newItem) {
+	public void append(E newItem) {
 		Node newNode = new Node();
 		newNode.item = newItem;
 		
@@ -51,7 +51,7 @@ public class WordList implements Iterable<String> {
 	 * 
 	 * @param newItem
 	 */
-	public void prepend(String newItem) {		
+	public void prepend(E newItem) {		
 		
 		Node newNode = new Node();
 		newNode.item = newItem;
@@ -76,7 +76,7 @@ public class WordList implements Iterable<String> {
 	 * @param item
 	 * @return index of the first occurrence of the item; -1 if the word was not found.
 	 */
-	public int indexOf(String item) {
+	public int indexOf(E item) {
 		Node current = head;
 		for(int i = 0; current != null; i++) {
 			if(item == current.item) {
@@ -95,7 +95,7 @@ public class WordList implements Iterable<String> {
 	 * @param item
 	 * @return true if the item is contained in the list; false otherwise.
 	 */
-	public boolean contains(String item) {	
+	public boolean contains(E item) {	
 		Node current = head;
 		for(int i = 0; current != null; i++) {
 			if(item == current.item) {
@@ -138,11 +138,11 @@ public class WordList implements Iterable<String> {
 	}
 	
 	@Override
-	public Iterator<String> iterator() {
+	public Iterator<E> iterator() {
 		return new WordListIterator();
 	}
 	
-	private class WordListIterator implements Iterator<String> {
+	private class WordListIterator implements Iterator<E> {
 		private Node current = head;
 
 		@Override
@@ -154,8 +154,8 @@ public class WordList implements Iterable<String> {
 		}
 
 		@Override
-		public String next() {
-			String item = current.item;
+		public E next() {
+			E item = current.item;
 			current = current.next;
 			
 			return item;
@@ -165,7 +165,7 @@ public class WordList implements Iterable<String> {
 	
 	/* * * * * * * * Test Client * * * * * * */
 	public static void main(String[] args) {
-		WordList list = new WordList();
+		GenericList<String> list = new GenericList<String>();
 		System.out.println("size: " + list.size());
 			
 		System.out.println("The list " + (list.isEmpty() ? "is" : "is not") + " empty");	
