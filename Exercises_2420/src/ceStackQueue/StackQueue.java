@@ -77,7 +77,7 @@ public class StackQueue {
 			q.enqueue(item);
 		}
 		
-		return q; // TODO
+		return q;
 	}
 	
 	public static void main(String[] args) {
