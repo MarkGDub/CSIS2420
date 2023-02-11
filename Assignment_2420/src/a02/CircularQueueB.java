@@ -4,9 +4,9 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
- * CircularQueueB is a queue using a linked structure of type Item.
+ * generic circular queue using a linked structure
  * 
- * @author CSIS2420 ... John R and Mark GW
+ * @author CSIS2420 + John R and Mark GW
  *
  * @param <Item>
  */
@@ -18,6 +18,7 @@ public class CircularQueueB<Item> implements Iterable<Item> {
 	
 	/**
 	 * creates queue with capacity
+	 * 
 	 * @param capacity
 	 */
 	CircularQueueB(int capacity) {
@@ -38,6 +39,7 @@ public class CircularQueueB<Item> implements Iterable<Item> {
 	
 	/** 
 	 * Determines whether the queue is full or not.
+	 * 
 	 * @return true if the queue is full.
 	 */
 	public boolean isFull() {
@@ -46,6 +48,7 @@ public class CircularQueueB<Item> implements Iterable<Item> {
 	
 	/** 
 	 * Determines whether the queue is empty or not.
+	 * 
 	 * @return true if there are no items in the queue.
 	 */
 	public boolean isEmpty() {
@@ -54,6 +57,7 @@ public class CircularQueueB<Item> implements Iterable<Item> {
 	
 	/**
 	 * Returns the number of items in the queue
+	 * 
 	 * @return the number of items
 	 */
 	public int size() {
@@ -61,8 +65,7 @@ public class CircularQueueB<Item> implements Iterable<Item> {
 	}
 	
 	/** 
-	 * Adds a node containing the new item at the
-	 * end of the queue.
+	 * Adds a node containing the new item at the end of the queue.
 	 * 
 	 * @param item
 	 */
@@ -88,7 +91,8 @@ public class CircularQueueB<Item> implements Iterable<Item> {
 	}
 	
 	/**
-	 * Removes the item from the front of the queue
+	 * Removes the node item from the front of the queue
+	 * 
 	 * @return item
 	 */
 	public Item dequeue(){
@@ -113,47 +117,72 @@ public class CircularQueueB<Item> implements Iterable<Item> {
 	
 	/**
 	 * Shows the next item that will come out of the queue
+	 * 
 	 * @return the next item out of queue
 	 */
 	public Item peek(){
 		if(isEmpty()) {
 			throw new NoSuchElementException("Queue is empty");
 		}
+		
 		return head.item;
 	}
 	
+	/**
+	 * initiates an iterator for the CircularQueueB class
+	 * 
+	 * @return iterator
+	 */
 	@Override
 	public Iterator<Item> iterator() {
 		return new CircularQueueBIterator();
 	}
 	
 	/**
-	 * CircularQueueBIterator is an iterator used by the Iterable interface of type Item
-	 * @return iterator
+	 * Represents an iterator
 	 */
 	private class CircularQueueBIterator implements Iterator<Item> {
 		private Node current = head;
 		private int count;
 
+		/**
+		 * Check if there is a next node
+		 *
+		 * @return true if there is a next node or false if there is not
+		 */
 		@Override
 		public boolean hasNext() {
 			if(count != size) {
 				return true;
 			}
+			
 			return false;
 		}
 
+		/**
+		 * gets item of current node, and moves the iterator to the next node
+		 * 
+		 * @return item of node
+		 */
 		@Override
 		public Item next() {
 			Item item = current.item;
 			current = current.next;
 			
 			++count;
+			
 			return item;
 		}
 		
 	}
 	
+	/**
+	 * Builds a string that includes all the list elements in order. 
+	 * Each element is followed by a single space.
+	 * If this list is empty, and empty string is returned.
+	 * 
+	 * @return a string representation of the sorted list
+	 */
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
@@ -170,17 +199,5 @@ public class CircularQueueB<Item> implements Iterable<Item> {
 
 	/* * * * * * * * Test Client * * * * * * */
 	public static void main(String[] args){
-		CircularQueueB<String> queue1 = new CircularQueueB<String>(3);
-		queue1.enqueue("head");
-		queue1.enqueue("middle");
-		queue1.enqueue("tail");
-		System.out.println("Queue B Size: " + queue1.size());
-		
-		System.out.println("Queue B: "+ queue1.toString());
-		
-		for(String item: queue1) {
-			System.out.print(item + " ");
-		}
-		
 	}
 }

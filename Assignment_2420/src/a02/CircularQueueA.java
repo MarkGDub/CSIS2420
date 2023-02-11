@@ -4,9 +4,9 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
- * CircularQueueA is a circular queue using an array of type Item.
+ * generic circular queue using an array.
  * 
- * @author CSIS2420 ... John R and Mark GW
+ * @author CSIS2420 + John R and Mark GW
  *
  * @param <Item>
  */
@@ -19,6 +19,7 @@ public class CircularQueueA<Item> implements Iterable<Item> {
 	
 	/**
 	 * creates queue with capacity
+	 * 
 	 * @param capacity
 	 */
 	CircularQueueA(int capacity) {
@@ -31,6 +32,7 @@ public class CircularQueueA<Item> implements Iterable<Item> {
 	
 	/** 
 	 * Determines whether the queue is full or not.
+	 * 
 	 * @return true if the queue is full.
 	 */
 	public boolean isFull() {
@@ -42,6 +44,7 @@ public class CircularQueueA<Item> implements Iterable<Item> {
 	
 	/** 
 	 * Determines whether the queue is empty or not.
+	 * 
 	 * @return true if there are no items in the queue.
 	 */
 	public boolean isEmpty() {
@@ -53,6 +56,7 @@ public class CircularQueueA<Item> implements Iterable<Item> {
 	
 	/**
 	 * Returns the number of items in the queue
+	 * 
 	 * @return the number of items
 	 */
 	public int size() {
@@ -61,6 +65,7 @@ public class CircularQueueA<Item> implements Iterable<Item> {
 	
 	/** 
 	 * Adds an Item at the end of the queue.
+	 * 
 	 * @param item
 	 */
 	public void enqueue(Item item){
@@ -79,6 +84,7 @@ public class CircularQueueA<Item> implements Iterable<Item> {
 	
 	/**
 	 * Removes item from the front of the queue
+	 * 
 	 * @return item
 	 */
 	public Item dequeue(){
@@ -105,6 +111,7 @@ public class CircularQueueA<Item> implements Iterable<Item> {
 	
 	/**
 	 * Shows the next item that will come out of the queue
+	 * 
 	 * @return the next item out of queue
 	 */
 	public Item peek(){
@@ -114,24 +121,38 @@ public class CircularQueueA<Item> implements Iterable<Item> {
 		return q[front];
 	}
 	
+	/**
+	 * initiates an iterator for the CircularQueueA class
+	 * 
+	 * @return iterator
+	 */
 	@Override
 	public Iterator<Item> iterator(){
 		return new ArrayQueueIterator();
 	}
 	
 	/**
-	 * CircularQueueAIterator is an iterator used by the Iterable interface of type Item
-	 * @return iterator
+	 * Represents an iterator
 	 */
 	private class ArrayQueueIterator implements Iterator<Item>{
 		private int current = front;
 		private int count = 0;
 		
+		/**
+		 * Check if there is a next array item
+		 *
+		 * @return true if there is a next array item or false if there is not
+		 */
 		@Override
 		public boolean hasNext(){
 			return current != -1 && count != capacity  && q[current] != null;
 		}
 
+		/**
+		 * gets item of current array index, and moves the iterator to the next array index
+		 * 
+		 * @return item of current array index
+		 */
 		@Override
 		public Item next(){
 			Item item = q[current];
@@ -143,6 +164,13 @@ public class CircularQueueA<Item> implements Iterable<Item> {
 		}
 	}
 	
+	/**
+	 * Builds a string that includes all the list elements in order. 
+	 * Each element is followed by a single space.
+	 * If this list is empty, and empty string is returned.
+	 * 
+	 * @return a string representation of the sorted list
+	 */
 	@Override
 	public String toString() {
 		if(isEmpty()) {
@@ -164,26 +192,5 @@ public class CircularQueueA<Item> implements Iterable<Item> {
 
 	/* * * * * * * * Test Client * * * * * * */
 	public static void main(String[] args){
-		CircularQueueA<String> queue1 = new CircularQueueA<String>(3);
-		
-		System.out.print("Queue: ");
-		
-		queue1.enqueue("meow");
-		queue1.enqueue("meow");
-		queue1.enqueue("meow");
-		queue1.dequeue();
-		
-		for(String item: queue1) {
-			
-			System.out.print(item + " ");
-		}
-		
-		System.out.println();
-		System.out.print("Second Loop: ");
-		
-		for(String item: queue1) {
-			
-			System.out.print(item + " ");
-		}
 	}
 }
