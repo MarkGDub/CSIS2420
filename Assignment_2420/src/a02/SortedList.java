@@ -8,18 +8,22 @@ import java.util.NoSuchElementException;
  * The elements are internally stored in a doubly-linked list, and 
  * null elements are not allowed.
  * 
- * @author CSIS Starter Code + ..... (replace the dots with your name)
+ * @author CSIS Starter Code + Mark GW and John R
  *  
  * @param <Item> type of elements stored in the sorted list
  */
 public class SortedList<Item extends Comparable<Item>> {
-	// TODO - add fields as needed
+	private Node head;
+	private Node tail;
+	private int size;
 	
 	/**
 	 * Represents a node in a double linked list.
-	 * / 
+	 */ 
 	private class Node {
-	// TODO
+		private Item item;
+		private Node next;
+		private Node prev;
 	}
 	
 	/**
@@ -28,7 +32,7 @@ public class SortedList<Item extends Comparable<Item>> {
 	 * @return true if there are no elements in the list and false otherwise
 	 */
 	public boolean isEmpty() {
-		return false; // TODO
+		return size == 0;
 	}
 	
 	/**
@@ -37,18 +41,58 @@ public class SortedList<Item extends Comparable<Item>> {
 	 * @return number of elements in the list
 	 */
 	public int size() {
-		return 0; // TODO
+		return size;
 	}
 	
 	/**
-	 * Adds <code>item</code> to the list while maintaining the list's sorted 
-	order.
+	 * Adds <code>item</code> to the list while maintaining the list's sorted order.
 	 * 
 	 * @param item element to add to the sorted list
 	 * @throws NullPointerException if the specified element is null
 	 */
 	public void insert(Item item) {
-		// TODO
+		if(item == null){
+    	throw new NullPointerException();
+    	}
+		
+		Node newNode = new Node();
+		newNode.item = item;
+		
+		if(isEmpty()) {
+			head = newNode;
+			tail = newNode;
+			
+			size++;
+			return;
+		}
+		
+		Node currentNode = head;
+		while(currentNode != null) {
+			boolean isGreaterThan = newNode.item.compareTo(currentNode.item) > 0;
+			
+			if(!isGreaterThan) break;	
+			
+			currentNode = currentNode.next;
+		}
+			
+		
+		if(currentNode == null) {
+			tail.next = newNode;
+			newNode.prev = tail;
+			tail = newNode;	
+		}
+		else if(head == currentNode) {
+			head.prev = newNode;
+			newNode.next = head;
+			head = newNode;
+		} else {
+			Node previousNode = currentNode.prev;
+			previousNode.next = newNode;
+			newNode.prev = previousNode;
+			newNode.next = currentNode;
+			currentNode.prev = newNode;
+		}
+		size++;
 	}
 	
 	/**
@@ -62,21 +106,44 @@ public class SortedList<Item extends Comparable<Item>> {
 	range [0, n)
 	 */
 	public Item delete(int index) {
-		return null; // TODO
+		if(isEmpty()) {
+			throw new NoSuchElementException();
+		} else if(index > size - 1 || index < 0) {
+			throw new IndexOutOfBoundsException();
+		}
+		
+		Node currentNode = head;
+		int currentIndex = 0;
+		while(currentIndex != index) {
+			currentNode = currentNode.next;
+			currentIndex++;
+		}
+		
+		if(size == 1) {
+			head = null;
+			tail = null;
+		}
+		else if(head == currentNode) {
+			head = currentNode.next;
+			currentNode.next.prev = null;
+		}
+		else if(tail == currentNode) {
+			tail = currentNode.prev;
+			currentNode.prev.next = null;
+		} 
+		else {
+			currentNode.prev.next = currentNode.next;
+			currentNode.next.prev = currentNode.prev;
+		}
+		
+		size--;
+		return currentNode.item;
 	}
 	
 	/**
-	 * Updates the element on the specified <code>index</code> by replacing it 
-	with <code>item</code>
-	 * and moves the updated node as needed to restore the sorted order of the 
-	list.
-	 * <p>
-	 * Examples:<br/>
-	 * Given the list 10-20-30-40-50 <br/>
-	 * a) updating index 2 with 33 results in 10-20-33-40-50 <br/>
-	 * b) updating index 3 with 15 results in 10-15-20-30-50 <br/>
-	 * c) updating index 1 with 60 results in 10-30-40-50-60 <br/>
-	 * 
+	 * Updates the element on the specified <code>index</code> by replacing it with <code>item</code>
+	 * and moves the updated node as needed to restore the sorted order of the list.
+	 *
 	 * @param index position of the element that needs to be updated
 	 * @param item new value of the updated element
 	 * @throws IndexOutOfBoundsException if the specified index is not in the 
@@ -86,7 +153,29 @@ public class SortedList<Item extends Comparable<Item>> {
 	to the method is null
 	 */
 	public void update(int index, Item item) {
-		// TODO
+		if(isEmpty()) {
+			throw new NoSuchElementException();
+		} 
+		else if(index > size - 1 || index < 0) {
+			throw new IndexOutOfBoundsException();
+		} 
+		else if(item == null) {
+			throw new NullPointerException();
+		}
+		
+		Node currentNode = head;
+		
+		for(int i = 0; i <= size; i++) {
+			if (index == i) {
+				currentNode.item = item;
+				delete(i);
+				insert(item);
+				break;
+			}
+			
+			currentNode = currentNode.next;
+		}
+
 	}
 	
 	/**
@@ -98,11 +187,18 @@ public class SortedList<Item extends Comparable<Item>> {
 	 */
 	@Override
 	public String toString() {
-		return null; // TODO
+		StringBuilder sb = new StringBuilder();
+		Node current = head;
+		
+		while(current != null) {
+			sb.append(current.item).append(" ");
+			current = current.next;
+		}
+		
+		return sb.toString();
 	}
 	
 	// = = = Optional Test Client = = =
 	public static void main(String[] args) {
-		
 	}
 }
