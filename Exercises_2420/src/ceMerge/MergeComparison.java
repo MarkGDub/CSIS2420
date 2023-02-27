@@ -8,13 +8,31 @@ public class MergeComparison {
 	public static void main(String[] args) {
 		int BILLION = 1_000_000_000;
 		
-		int n = 10_000;
 		
+		System.out.println("Merge Sort: ");
+		System.out.println("-----------");
+		int n = 10_000;
 		for(int i = 0; i < 10; i++) {
 			Integer[] a = getIntegerArray(n);
 			
 			long start = System.nanoTime();
 			Merge.sort(a);
+			double elapsedTime = System.nanoTime() - start;
+			
+			StdOut.printf("Time to sort " + n + " elements = %.4f s %n", elapsedTime / BILLION);
+			
+			n*=2;
+		}
+		System.out.println();
+		
+		System.out.println("MergeSlow Sort: ");
+		System.out.println("-----------");
+		n = 10_000;
+		for(int i = 0; i < 10; i++) {
+			Integer[] a = getIntegerArray(n);
+			
+			long start = System.nanoTime();
+			MergeSlow.sort(a);
 			double elapsedTime = System.nanoTime() - start;
 			
 			StdOut.printf("Time to sort " + n + " elements = %.4f s %n", elapsedTime / BILLION);
