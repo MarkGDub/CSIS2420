@@ -1,3 +1,11 @@
-.DS_Store
-.metadata
+.*
+!.gitignore
+*.log
 Module1Test_2420/
+Module2_2420/
+Module3_2420/
+Module4_2420/
+Final_2420/
+A05_Magic/
+pokemon-app/
+*/bin/*
